@@ -1,0 +1,47 @@
+KLETTERN & ABENTEUER BRILON – 0 € TEST AUF RENDER
+================================================
+
+Diese Version ist für Render (Free) vorbereitet. Keine Domain erforderlich.
+Passwort ist NICHT in den Projektdateien enthalten.
+
+ONLINE BRINGEN (am einfachsten am PC)
+1. Bei https://github.com ein kostenloses Konto erstellen/anmelden.
+2. Bei GitHub ein neues PRIVATE Repository erstellen, z. B. klettern-brilon-test.
+3. Diese ZIP-Datei lokal entpacken. ALLE Dateien und Ordner aus dem
+   entpackten Ordner in das Repository hochladen (Add file > Upload files).
+   Wichtig: Dateien server.js, package.json, render.yaml müssen im WURZELORDNER liegen.
+   Niemals Zugangsdaten, auth.json oder echte Personendaten hochladen.
+4. Bei https://dashboard.render.com registrieren/anmelden.
+5. Über New > Blueprint (oder Blueprints > New Blueprint) das GitHub-Repository verbinden.
+6. Render liest render.yaml und erstellt die kostenlose Test-Website.
+   Beim Einrichten ADMIN_PASSWORD als geheime Umgebungsvariable eingeben.
+   Neuen, starken Passwortwert verwenden (nicht ins GitHub-Repository schreiben!).
+7. Fertigstellen/Deploy starten. Nach erfolgreichem Start erhältst du eine Adresse
+   nach dem Muster https://klettern-brilon-test.onrender.com
+   Der Name kann je nach Verfügbarkeit abweichen.
+8. Deine Verwaltung erreichst du unter /verwaltung/ auf derselben Adresse.
+   Benutzername: 13MF01
+   Passwort: Dein beim Einrichten von Render eingegebenes geheimes Passwort.
+
+WICHTIGE GRENZEN IM GRATIS-TEST
+- Render fährt den kostenlosen Dienst bei Inaktivität herunter.
+- Bei Neustart oder neuem Deploy wird der lokale Inhalt von data/aktionen.json
+  zurückgesetzt. Nach jeder Änderung 'Angebote als Sicherung herunterladen' nutzen.
+  Diese Sicherung ist eine Datei auf deinem Gerät, kein automatisches Cloud-Backup.
+- Für dauerhafte Verwaltung braucht die Website später eine Datenbank oder
+  einen Hosting-Anbieter mit persistentem Speicher.
+- E-Mail-Anfragen sind bislang Mailto-Links; automatische Zahlungsabwicklung,
+  echte Reservierung und Datenschutz-/Impressumsprüfung sind nicht fertig.
+- Keine echten Daten von Kunden/Kindern für den Test verwenden.
+- Öffentlich geht nur mit HTTPS; Render stellt dies automatisch bereit.
+
+OPTION: WEB SERVICE STATT BLUEPRINT
+New > Web Service > Repository > Language Node > Free
+Build Command: npm install --omit=dev
+Start Command: npm start
+Environment: NODE_ENV=production, HOST=0.0.0.0,
+             ADMIN_USERNAME=13MF01, ADMIN_PASSWORD=(geheimes Passwort)
+
+LOKAL TESTEN
+Nur wenn NODE_ENV lokal ohne production gesetzt ist, die Variablen manuell angeben, z.B.
+ADMIN_USERNAME=13MF01 ADMIN_PASSWORD='<eigenes_passwort>' npm start

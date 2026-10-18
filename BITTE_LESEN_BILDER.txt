@@ -1,0 +1,22 @@
+KLETTERN & ABENTEUER BRILON – NEUE ORIGINALFOTOS
+
+Diese Version basiert auf der vorhandenen Website mit Node.js, Angebotsverwaltung und Render-Test-Konfiguration.
+Die sechs neu gelieferten Fotos liegen unter site/fotos/.
+Auf der Startseite ist das Foto mit dem roten Helm ergänzt; im Kindergeburtstags-Angebot
+wird das Foto eines Kindes an der Kletterwand angezeigt. Alle sechs Bilder erscheinen
+außerdem in der interaktiven Fotogalerie.
+
+WICHTIG – KINDERFOTOS:
+Vor dem öffentlichen Hochladen müssen erforderliche Einwilligungen der Sorgeberechtigten
+für die Veröffentlichung der erkennbaren Kinder vorliegen und die Bildrechte geklärt sein.
+Wenn dies nicht der Fall ist, die zwei Kinderfotos aus der Website entfernen bzw. ersetzen.
+Die optimierten JPEGs enthalten keine übernommenen EXIF-Metadaten.
+
+GITHUB / RENDER:
+ZIP entpacken und den INHALT des entpackten Ordners in das GitHub-Repository hochladen.
+Die Anmeldung zur Angebotsverwaltung benötigt einen Node.js-Server (z.B. Render).
+GitHub Pages allein reicht für die sichere Verwaltung nicht aus.
+ADMIN_USERNAME und ADMIN_PASSWORD im Hosting als geheime Umgebungsvariablen setzen;
+niemals Passwortdateien oder Zugangsdaten in GitHub hochladen.
+Auf kostenlosen Hostings sind gespeicherte Angebote ohne dauerhaftes Laufwerk bzw.
+externe Datenbank möglicherweise nach Neustart/Neubereitstellung wieder weg.

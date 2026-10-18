@@ -1,0 +1,12 @@
+{
+  "name": "klettern-abenteuer-brilon",
+  "version": "2.0.0",
+  "private": true,
+  "type": "commonjs",
+  "description": "Kletter-Website Brilon mit sicherer Angebotsverwaltung",
+  "scripts": {
+    "start": "node server.js",
+    "check": "node --check server.js && node --check admin/admin.js"
+  },
+  "engines": {"node": ">=20"}
+}

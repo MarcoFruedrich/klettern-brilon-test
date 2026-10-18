@@ -1,0 +1,17 @@
+# Render Blueprint für kostenlose Testumgebung – keine eigene Domain erforderlich.
+services:
+  - type: web
+    name: klettern-brilon-test
+    runtime: node
+    plan: free
+    buildCommand: npm install --omit=dev
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: HOST
+        value: 0.0.0.0
+      - key: ADMIN_USERNAME
+        value: 13MF01
+      - key: ADMIN_PASSWORD
+        sync: false

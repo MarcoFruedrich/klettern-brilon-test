@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="de"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#163e35">
+<title>Verwaltung – Klettern & Abenteuer Brilon</title>
+<link rel="stylesheet" href="/design.css"><link rel="stylesheet" href="/aktionen.css"><link rel="stylesheet" href="/admin.css">
+</head><body>
+<header class="site-header"><div class="container header-inner"><a class="logo" href="/" aria-label="Klettern & Abenteuer Brilon – Startseite"><span class="logo-mark">↟</span><span>KLETTERN &amp;<br>ABENTEUER<small>Verwaltung · Jugendherberge Brilon</small></span></a><nav class="admin-nav"><a href="/aktionen.html" target="_blank" rel="noopener">Öffentliche Angebote ↗</a><button id="logoutBtn" type="button" class="button button-dark btn-sm" hidden>Abmelden</button></nav></div></header>
+<main>
+<section class="admin-intro"><div class="container"><span class="eyebrow">Nur für berechtigte Personen</span><h1>Angebote <em>verwalten.</em></h1><p>Hier steuerst du Tagesaktionen, Ferienprogramme und Sonderangebote. Veröffentliche Änderungen direkt für Besucher – ganz ohne Dateiupload.</p></div></section>
+<div class="container auth-shell" id="loadingArea" role="status">Zugangsstatus wird geprüft …</div>
+<section id="loginArea" class="container auth-shell" hidden>
+ <div class="auth-card">
+  <div class="auth-mark">🔒</div><h2>Verwaltungs-Login</h2><p class="muted">Melde dich an, um deine Kletterangebote zu bearbeiten.</p>
+  <form id="loginForm">
+   <div class="field"><label for="username">Benutzername</label><input id="username" name="username" autocomplete="username" required maxlength="80" placeholder="Benutzername"></div>
+   <div class="field"><label for="password">Passwort</label><div class="password-row"><input id="password" name="password" type="password" autocomplete="current-password" required placeholder="Passwort"><button type="button" class="show-password" id="showPassword" aria-label="Passwort anzeigen">Anzeigen</button></div></div>
+   <p id="loginMessage" class="form-status" role="alert" aria-live="polite"></p>
+   <button id="loginBtn" type="submit" class="button button-primary auth-submit">Anmelden ↗</button>
+  </form>
+  <p class="auth-hint">Die Anmeldung wird vom Server geprüft; das Passwort ist nicht im Quelltext hinterlegt.</p>
+ </div>
+</section>
+<section id="dashboardArea" class="container admin-section" hidden>
+ <div class="admin-quickbar"><div><h2>Deine Angebote</h2><p class="muted">Neue Aktionen erscheinen nach der Veröffentlichung sofort auf der öffentlichen Seite.</p></div><div class="quick-count"><span id="activeCount">0</span> öffentlich</div></div>
+ <div class="admin-layout">
+  <div>
+   <section class="editor-box" aria-labelledby="formHeading">
+    <div class="editor-heading"><h2 id="formHeading">Neue Aktion anlegen</h2><button id="newAction" class="button button-outline btn-sm" type="button">+ Neu</button></div>
+    <div class="template-buttons"><strong>Vorlagen:</strong><button type="button" data-template="tag">Tagesklettern</button><button type="button" data-template="special">Kletter-Special</button><button type="button" data-template="ferien">Ferienangebot</button></div>
+    <form id="actionEditor"><div class="admin-fields">
+     <div class="field full"><label for="title">Name der Aktion *</label><input id="title" required maxlength="120" placeholder="z. B. Kletter-Nachmittag für Feriengäste"></div>
+     <div class="field"><label for="category">Angebotsart *</label><select id="category" required><option value="tag">Tagesangebot</option><option value="special">Sonderaktion</option><option value="ferien">Ferien & Gruppen</option></select></div>
+     <div class="field"><label for="badge">Hinweis-Schild</label><input id="badge" maxlength="40" placeholder="z. B. Ferien-Special"></div>
+     <div class="field"><label for="startDate">Erster Gültigkeitstag *</label><input type="date" id="startDate" required></div>
+     <div class="field"><label for="endDate">Letzter Gültigkeitstag *</label><input type="date" id="endDate" required></div>
+     <div class="field"><label for="startTime">Beginn</label><input type="time" id="startTime"></div>
+     <div class="field"><label for="endTime">Ende</label><input type="time" id="endTime"></div>
+     <div class="field"><label for="minCount">Mindestens Personen</label><input id="minCount" type="number" min="1" max="10000" placeholder="optional"></div>
+     <div class="field"><label for="maxCount">Höchstens Personen</label><input id="maxCount" type="number" min="1" max="10000" placeholder="optional"></div>
+     <div class="field full"><label for="price">Preis / Aktionstext</label><input id="price" maxlength="120" placeholder="z. B. Preis auf Anfrage"></div>
+     <div class="field full"><label for="description">Beschreibung *</label><textarea id="description" required maxlength="1600" rows="4" placeholder="Was erwartet die Gäste?"></textarea></div>
+     <div class="field full"><label for="details">Weitere Infos / Hinweise</label><textarea id="details" maxlength="500" rows="2" placeholder="z. B. Vorkenntnisse nicht nötig"></textarea></div>
+    </div>
+    <label class="publish-switch"><input type="checkbox" id="published"><span><strong>Jetzt öffentlich anzeigen</strong><small>Ohne Häkchen bleibt die Aktion ein Entwurf und ist für Gäste nicht sichtbar.</small></span></label>
+    <div class="editor-actions"><button class="button button-primary" type="submit" id="saveAction">Angebot speichern</button><button class="button button-outline" type="button" id="deleteCurrent" hidden>Aktion löschen</button><button class="button button-outline" type="button" id="resetForm">Zurücksetzen</button></div>
+    <p class="form-status" id="editorMessage" role="status" aria-live="polite"></p>
+    </form>
+   </section>
+   <section class="editor-box"><h2>So sieht es für Gäste aus</h2><p class="muted">Nur veröffentlichte und zeitlich aktuelle Angebote werden angezeigt.</p><div id="adminPreview" class="admin-preview-grid"></div></section>
+  </div>
+  <aside class="editor-box"><div class="editor-heading"><h2>Gespeicherte Aktionen</h2><span class="badge-pill" id="totalCount">0</span></div><div id="adminList" class="admin-list"></div><div style="margin-top:15px"><button type="button" id="exportBackup" class="button button-outline btn-sm">Angebote als Sicherung herunterladen</button><p class="muted">Wichtig im kostenlosen Test: Angebote nach Änderungen sichern. Bei Server-Neustart können gespeicherte Aktionen verschwinden.</p></div><p class="muted" style="margin-top:16px">Entwürfe bleiben geschützt. Abgelaufene Aktionen werden öffentlich automatisch ausgeblendet.</p></aside>
+ </div>
+</section>
+</main>
+<footer class="admin-footer"><div class="container">Klettern & Abenteuer Brilon · Verwaltungsbereich · <a href="/" style="color:inherit">Zur Website</a></div></footer>
+<script src="/admin.js" defer></script>
+</body></html>
