@@ -47,4 +47,6 @@ el('pricesImport').addEventListener('change',async e=>{
  }catch(error){msg('Wiederherstellung fehlgeschlagen: '+error.message,true);}finally{e.target.value='';}
 });
 const target=el('dashboardArea');const observer=new MutationObserver(()=>{if(!target.hidden)load();});observer.observe(target,{attributes:true,attributeFilter:['hidden']});
+// Falls die Anmeldung schon vor dem Laden dieses Skripts abgeschlossen war, die Eingabefelder sofort aufbauen.
+if(!target.hidden)load();
 })();
