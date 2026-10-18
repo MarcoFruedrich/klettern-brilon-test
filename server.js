@@ -227,7 +227,7 @@ async function handler(req,res){
   }
   if(pathname==='/verwaltung'||pathname==='/aktionen-verwaltung.html') {res.writeHead(302,{Location:'/verwaltung/',...security});return res.end();}
   if(pathname==='/verwaltung/'&&req.method==='GET')return safeStatic(res,path.join(ADMIN,'index.html'),'no-store');
-  if((pathname==='/admin.js'||pathname==='/admin.css')&&req.method==='GET')return safeStatic(res,path.join(ADMIN,pathname.slice(1)),'no-store');
+  if((pathname==='/admin.js'||pathname==='/admin.css'||pathname==='/preise-admin.js')&&req.method==='GET')return safeStatic(res,path.join(ADMIN,pathname.slice(1)),'no-store');
   if(req.method!=='GET'&&req.method!=='HEAD')return json(res,405,{error:'Methode nicht erlaubt.'});
   if(pathname==='/')return safeStatic(res,path.join(SITE,'index.html'),'no-store');
   // Kein Directory-Traversal und keine Auslieferung der privaten Daten.
