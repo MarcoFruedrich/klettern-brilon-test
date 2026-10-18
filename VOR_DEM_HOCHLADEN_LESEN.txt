@@ -1,0 +1,33 @@
+KLETTERN & ABENTEUER BRILON – UPDATE V2.2
+=========================================
+
+Dieses Update enthält nur die geänderten bzw. neu hinzugefügten Dateien.
+Vorhandene Fotodateien bleiben unverändert.
+
+KONTAKTADRESSE
+Für alle Kontakt- und Buchungsanfragen lautet die Adresse:
+klettern.ruethen@gmail.com
+Die Adresse wird in Startseite, Gruppenanfragen, Aktionen,
+Impressum, Datenschutz und Buchungsinformationen verwendet.
+Die Formulare öffnen einen vorbereiteten Mailentwurf – sie versenden
+keine Nachricht automatisch über einen Server.
+
+VOR DEM UPDATE
+1. Aktuelle Angebote über die Verwaltung als Backup herunterladen.
+2. Einstellungen / Zugangsdaten bei Render unverändert lassen.
+3. Rechtstexte benötigen noch die endgültige rechtliche Prüfung.
+4. Für erkennbare Kinderfotos Veröffentlichungseinwilligungen sicherstellen.
+
+GITHUB
+ZIP ENTpacken. Alle Dateien und Ordner AUS DEM entpackten Paket
+auf GitHub in das bestehende Repository klettern-brilon-test hochladen.
+Bestehende Dateien mit gleichem Pfad ersetzen / aktualisieren;
+keinen zusätzlichen übergeordneten Ordner anlegen. Änderungen committen.
+GitHub Repository muss mit dem bestehenden Render-Webservice verbunden sein.
+
+RENDER
+Die Umgebungsvariablen ADMIN_USERNAME und ADMIN_PASSWORD nicht ändern.
+Der Startbefehl lautet npm start. Ein automatisches Deployment erfolgt
+nur wenn der Auto-Deploy aktiviert ist, sonst Manual Deploy.
+Bei Free-Hosting kann lokaler Datenbestand bei Deploys verloren gehen;
+externe Datenbank erst konfigurieren, dann die Backups einspielen.

@@ -1,0 +1,69 @@
+KLETTERN & ABENTEUER BRILON – VERSION 2.1
+Dauerhafte Speicherung von Tages-, Ferien- und Sonderangeboten
+
+Diese ZIP-Datei enthält die vollständige Website, den Verwaltungsbereich, die Originalfotos
+und die Erweiterung für eine PostgreSQL-Datenbank. Ohne DATABASE_URL läuft die bisherige
+Website weiterhin mit lokaler Speicherung (auf Render Free nicht dauerhaft!).
+
+WICHTIG: Die bereits funktionierende Website bleibt unverändert, bis die neuen Dateien
+bei GitHub hochgeladen und von Render erfolgreich bereitgestellt wurden.
+
+ANLEITUNG (PC):
+
+1. VORHER SICHERN
+   Auf https://klettern-brilon-test1.onrender.com/verwaltung/ anmelden.
+   Auf "Angebote als Sicherung herunterladen" klicken und die JSON-Datei behalten.
+   Vor jedem späteren Einspielen der Sicherung prüfen, ob die neuesten Angebote enthalten sind.
+
+2. DATABASE BEI NEON ANLEGEN
+   https://console.neon.tech öffnen. Neues Projekt z. B. "Klettern Brilon" erstellen.
+   Falls auswählbar, Region Frankfurt / EU auswählen; kostenlosen Tarif prüfen.
+   Im Dashboard bei "Connect" die PostgreSQL-Verbindungsadresse kopieren.
+   Eine "pooled" Connection ist möglich. Die Adresse enthält ein Datenbankpasswort!
+   Sie darf NICHT auf GitHub hochgeladen oder im Chat geteilt werden.
+
+3. GITHUB AKTUALISIEREN
+   ZIP-Datei auf dem PC entpacken. Im Repository klettern-brilon-test die enthaltenen
+   Dateien/Ordner hochladen und gleichnamige Dateien ersetzen. Neue Dateien im
+   Hauptverzeichnis ablegen, NICHT in einem zusätzlich verschachtelten Ordner.
+   Der Upload ist ein Code-Update, die private DATABASE_URL darf NICHT in Dateien stehen.
+   Anschließend den erfolgreichen Render-Deploy abwarten.
+
+4. RENDER VERBINDEN
+   Render Dashboard -> bestehender Web Service -> Environment -> Add Environment Variable:
+     Key: DATABASE_URL
+     Value: vollständig kopierte Connection URL von Neon (postgresql://...)
+   "Save and deploy" wählen. ADMIN_USERNAME und ADMIN_PASSWORD unverändert lassen.
+   Settings -> Start Command bleibt "npm start"; Build Command "npm install --omit=dev".
+   Der Server erstellt die Datenbanktabelle "brilon_aktionen" beim ersten Start automatisch.
+   Wenn DATABASE_URL ungültig ist, startet der Server bewusst nicht: Logs prüfen.
+
+5. DATEN WIEDERHERSTELLEN
+   Wenn Render "Live" meldet, zur /verwaltung/ gehen und anmelden.
+   Dort sollte "Dauerhafte Datenbankspeicherung ist aktiv" stehen.
+   "Vorhandene Sicherung wiederherstellen" -> JSON-Sicherungsdatei auswählen ->
+   Warnung bestätigen. Die alten Daten in der Datenbank werden dadurch ERSETZT!
+   Danach kontrollieren, ob alle bisherigen Angebote / veröffentlichten Aktionen erscheinen.
+   Die Sicherung weiterhin auf dem PC aufbewahren.
+
+6. TESTEN
+   Ein Testangebot als Entwurf speichern, Render neu laden und Testeintrag prüfen.
+   Danach Testeintrag löschen. Auch nach einem Render-Neustart sollen Daten erhalten bleiben.
+
+SICHERHEIT UND RECHTLICHES
+- Keine Passwörter oder Neon-DATABASE_URL in GitHub-Dateien schreiben.
+- Vor Veröffentlichung identifizierbarer Kinderbilder notwendige Einwilligungen sichern.
+- Datenbank ist nur für die Angebotsdaten; Buchungen/Zahlungen werden dadurch NICHT
+  automatisch online gespeichert oder verarbeitet.
+- Prüfen, ob Datenschutzhinweise, Hostingstandorte und AV-Verträge für euren Betrieb passen.
+- Bei Ausfall von Neon werden Datenbankanfragen möglicherweise vorübergehend fehlschlagen;
+  es wird bewusst NICHT heimlich in eine unsichere lokale Ersatzdatei gespeichert.
+- Externe Dienste und Tarife können ihre Konditionen ändern.
+
+TECHNISCHE HINWEISE
+- Node.js >=20, PostgreSQL über pg (npm installiert beim Render-Build).
+- Ohne DATABASE_URL: lokale data/aktionen.json für reine Entwicklung / Testbetrieb.
+- Import akzeptiert die von der Verwaltungsseite heruntergeladene
+  "brilon-tagesangebote-sicherung.json" (bis 200 Angebote).
+- Import verwendet eine DB-Transaktion: Bei Fehlern bleiben die bisherigen Daten erhalten.
+- Der Import überschreibt nach ausdrücklicher Bestätigung sämtliche bisherigen Angebote.

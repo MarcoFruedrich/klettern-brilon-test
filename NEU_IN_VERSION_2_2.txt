@@ -1,0 +1,58 @@
+KLETTERN & ABENTEUER BRILON – WEBSITE VERSION 2.2
+================================================
+
+NEU: PREISVERWALTUNG
+- In /verwaltung/ gibt es oberhalb der Aktionen den Bereich „Preise & Programmblöcke“.
+- Drei editierbare Gruppen-Obergrenzen: standardmäßig bis 5, 10 und 15 aktiv Kletternde.
+- Für jeden Programmbaustein jeweils drei separat einstellbare GRUPPEN-Gesamtpreise.
+- Programmnamen können verändert, neue Blöcke hinzugefügt und vorhandene entfernt werden.
+- Kindergeburtstage haben einen separat änderbaren Festpreis und eine eigene Dauer.
+- Leere Preisfelder zeigen öffentlich „Preis auf Anfrage“.
+- „Preise auf der öffentlichen Website anzeigen“ blendet Preise im öffentlichen Bereich aus oder ein.
+- Speichern über /api/preise aktualisiert die öffentliche Preisliste ohne zusätzlichen GitHub-Upload.
+- Preisliste kann als JSON gesichert und im Verwaltungsbereich wiederhergestellt werden.
+- Vor Ausgabe nicht vereinbarte Gruppenpreise wurden nicht erfunden: Alle Beträge sind zunächst leer.
+
+NEU: ÖFFENTLICHE SEITEN
+- Startseite: Abschnitt „Preise & Gruppenstufen“ mit dynamischer Übersicht.
+- Anfrageformular: Programmbaustein + Teilnehmerzahl -> passender angezeigter Preis und Dauer.
+- Größere Gruppen: gesondertes Kontaktformular, Preis nach Absprache.
+- Individuelle Veranstaltungen und inklusive Programme: separates Kontaktformular.
+- Buchungsanfragen öffnen weiterhin nur einen E-Mail-Entwurf. Kein automatischer Versand,
+  keine verbindliche Reservierung und keine Online-Zahlung.
+
+NEU: RECHTSTEXTE UND KONTAKTE
+- Impressum anhand der bestätigten Daten von Marco Friedrich überarbeitet.
+- Datenschutzentwurf für Render, Gmail und die Website-Funktionen erstellt.
+- Buchungs- und Preisinformationsseite ergänzt.
+- Geschäftliche E-Mail: klettern.ruethen@gmail.com, Tel.: 0151 52979924.
+- Keine nicht zugeteilte Umsatzsteuer- oder Wirtschafts-ID veröffentlicht.
+
+WICHTIG – VOR DEM VERÖFFENTLICHEN PRÜFEN
+- Impressum, Datenschutzerklärung und Buchungsbedingungen sind Entwürfe und benötigen
+  abschließende rechtliche und tatsächliche Kontrolle (Auftragsverarbeitung, Speicherfristen,
+  Steuerstatus, etwaige Aufsichts-/Registrierungsdaten, Widerruf/Stornobedingungen).
+- Für Kinderfotos ist die erforderliche Einwilligung zur Online-Veröffentlichung einzuholen.
+- Website steht aktuell über Render in einer US-Region; Verarbeitung und Verträge prüfen.
+
+WICHTIG – DATENSPEICHERUNG
+- Auf Render Free werden lokal gespeicherte Preis- und Aktionsdateien bei einem neuen
+  Deployment/Neustart unter Umständen gelöscht.
+- Erst DATABASE_URL mit einer korrekt eingerichteten PostgreSQL-Datenbank aktiviert
+  dauerhafte Speicherung. Die Konfiguration ist optional; ohne sie funktioniert
+  der Preis-Editor, jedoch nur mit temporärer Speicherung.
+- Bestehende JSON-Sicherungen für Aktionen können separat wiederhergestellt werden.
+- In Version 2.2 ist zusätzlich die Preislisten-Sicherung mit Import vorhanden.
+- Eine Neuinstallation mit Datenbank migriert bestehende lokale Preisdaten NICHT von selbst.
+
+INSTALLATION
+1) Vorherige Website-Dateien und JSON-Sicherungen auf dem PC aufbewahren.
+2) Dieses ZIP entpacken, den Inhalt (server.js, package.json, Ordner site und admin,
+   render.yaml etc.) im bestehenden GitHub-Repository aktualisieren.
+3) Render Deploy beobachten. Die vorhandenen Umgebungsvariablen ADMIN_USERNAME und
+   ADMIN_PASSWORD unverändert behalten; Start Command: npm start.
+4) Bei aktivem /api/preise neue Beträge in /verwaltung/ eintragen und speichern.
+5) Auf öffentlicher Seite Preise, mobile Darstellung und Anfrageformulare testen.
+
+SICHERHEIT
+Keine Passwörter oder DATABASE_URL in GitHub-Dateien eintragen!

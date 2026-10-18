@@ -15,3 +15,5 @@ services:
         value: 13MF01
       - key: ADMIN_PASSWORD
         sync: false
+      # DATABASE_URL wird später in Render unter Environment ergänzt.
+      # Nicht in GitHub speichern: enthält geheime Datenbank-Zugangsdaten.
