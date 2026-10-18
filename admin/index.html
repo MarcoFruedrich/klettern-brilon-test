@@ -7,7 +7,7 @@
 </head><body>
 <header class="site-header"><div class="container header-inner"><a class="logo" href="/" aria-label="Klettern & Abenteuer Brilon – Startseite"><span class="logo-mark">↟</span><span>KLETTERN &amp;<br>ABENTEUER<small>Verwaltung · Jugendherberge Brilon</small></span></a><nav class="admin-nav"><a href="/aktionen.html" target="_blank" rel="noopener">Öffentliche Angebote ↗</a><button id="logoutBtn" type="button" class="button button-dark btn-sm" hidden>Abmelden</button></nav></div></header>
 <main>
-<section class="admin-intro"><div class="container"><span class="eyebrow">Nur für berechtigte Personen</span><h1>Angebote <em>verwalten.</em></h1><p>Hier steuerst du Tagesaktionen, Ferienprogramme und Sonderangebote. Veröffentliche Änderungen direkt für Besucher – ganz ohne Dateiupload.</p></div></section>
+<section class="admin-intro"><div class="container"><span class="eyebrow">Nur für berechtigte Personen</span><h1>Angebote <em>verwalten.</em></h1><p>Hier steuerst du Gruppenpreise, Kindergeburtstage, Programmblöcke, Tagesaktionen, Ferienprogramme und Sonderangebote. Veröffentliche Änderungen direkt für Besucher – ganz ohne Dateiupload.</p></div></section>
 <div class="container auth-shell" id="loadingArea" role="status">Zugangsstatus wird geprüft …</div>
 <section id="loginArea" class="container auth-shell" hidden>
  <div class="auth-card">
@@ -23,6 +23,21 @@
 </section>
 <section id="dashboardArea" class="container admin-section" hidden>
  <div class="admin-quickbar"><div><h2>Deine Angebote</h2><p class="muted">Neue Aktionen erscheinen nach der Veröffentlichung sofort auf der öffentlichen Seite.</p></div><div class="quick-count"><span id="activeCount">0</span> öffentlich</div></div>
+ <section class="editor-box prices-editor" id="pricingEditor" aria-labelledby="pricingHeading">
+  <div class="editor-heading"><div><h2 id="pricingHeading">Preise &amp; Programmblöcke</h2><p class="muted">Die Gruppenstufen und alle Einzelpreise lassen sich hier ändern. Nach dem Speichern werden sie auf der Website automatisch aktualisiert.</p></div><a class="button button-outline btn-sm" href="/#preise" target="_blank" rel="noopener">Preise ansehen ↗</a></div>
+  <form id="pricesForm">
+   <h3>1. Flexible Gruppenstufen</h3><p class="muted">Drei Preisstufen für die Anzahl aktiv Kletternder. Die Grenzen beginnen bei 1 und müssen aufsteigend sein. Die eingetragenen Preise gelten jeweils für die <strong>gesamte Gruppe</strong>, nicht pro Person.</p>
+   <div class="tier-admin-grid" id="tierAdminGrid"></div>
+   <h3>2. Preise je Kletterprogramm</h3><p class="muted">Trage für jeden Programmblock einen Gruppenpreis je Stufe ein. Leere Felder werden öffentlich als „Preis auf Anfrage“ angezeigt.</p>
+   <div id="programAdminList" class="program-admin-list"></div>
+   <div class="editor-actions"><button type="button" id="addProgram" class="button button-outline btn-sm">+ Weiteren Programmblock hinzufügen</button></div>
+   <h3>3. Kindergeburtstage</h3><div class="birthday-admin-grid"><div class="field"><label for="birthdayPrice">Festpreis je Kindergeburtstag (€)</label><input type="number" inputmode="decimal" min="0.01" step="0.01" id="birthdayPrice" placeholder="Preis auf Anfrage"></div><div class="field"><label for="birthdayDuration">Voraussichtliche Dauer</label><input id="birthdayDuration" maxlength="80" placeholder="ca. 3 Stunden"></div></div>
+   <label class="publish-switch"><input type="checkbox" id="pricesPublished" checked><span><strong>Preise auf der öffentlichen Website anzeigen</strong><small>Ist die Option deaktiviert, erscheint öffentlich nur „Preis auf Anfrage“.</small></span></label>
+   <div class="editor-actions"><button type="submit" id="savePrices" class="button button-primary">Preise speichern &amp; veröffentlichen</button><button type="button" id="pricesExport" class="button button-outline">Preisübersicht sichern (JSON)</button></div><div class="field" style="margin-top:15px"><label for="pricesImport">Gesicherte Preisliste wiederherstellen (ersetzt alle Preise)</label><input id="pricesImport" type="file" accept=".json,application/json"></div>
+   <p id="pricesStatus" class="form-status" role="status" aria-live="polite"></p>
+   <p class="muted">Hinweis: Ohne <strong>DATABASE_URL</strong> ist die Speicherung auf Render Free nicht dauerhaft. Nutze die JSON-Sicherung, bis eine externe Datenbank eingerichtet ist.</p>
+  </form>
+ </section>
  <div class="admin-layout">
   <div>
    <section class="editor-box" aria-labelledby="formHeading">
@@ -49,10 +64,11 @@
    </section>
    <section class="editor-box"><h2>So sieht es für Gäste aus</h2><p class="muted">Nur veröffentlichte und zeitlich aktuelle Angebote werden angezeigt.</p><div id="adminPreview" class="admin-preview-grid"></div></section>
   </div>
-  <aside class="editor-box"><div class="editor-heading"><h2>Gespeicherte Aktionen</h2><span class="badge-pill" id="totalCount">0</span></div><div id="adminList" class="admin-list"></div><div style="margin-top:15px"><button type="button" id="exportBackup" class="button button-outline btn-sm">Angebote als Sicherung herunterladen</button><p class="muted">Wichtig im kostenlosen Test: Angebote nach Änderungen sichern. Bei Server-Neustart können gespeicherte Aktionen verschwinden.</p></div><p class="muted" style="margin-top:16px">Entwürfe bleiben geschützt. Abgelaufene Aktionen werden öffentlich automatisch ausgeblendet.</p></aside>
+  <aside class="editor-box"><div class="editor-heading"><h2>Gespeicherte Aktionen</h2><span class="badge-pill" id="totalCount">0</span></div><div id="adminList" class="admin-list"></div><div style="margin-top:15px"><button type="button" id="exportBackup" class="button button-outline btn-sm">Angebote als Sicherung herunterladen</button><p class="muted" id="storageNotice">Speicherstatus wird geprüft …</p><div style="margin-top:15px"><label for="importBackup"><strong>Vorhandene Sicherung wiederherstellen</strong></label><p class="muted">Achtung: Die Sicherung ersetzt nach deiner Bestätigung sämtliche aktuell gespeicherten Angebote.</p><input id="importBackup" type="file" accept=".json,application/json" style="max-width:100%;margin-top:8px"></div><p class="form-status" id="importMessage" role="status" aria-live="polite"></p></div><p class="muted" style="margin-top:16px">Entwürfe bleiben geschützt. Abgelaufene Aktionen werden öffentlich automatisch ausgeblendet.</p></aside>
  </div>
 </section>
 </main>
 <footer class="admin-footer"><div class="container">Klettern & Abenteuer Brilon · Verwaltungsbereich · <a href="/" style="color:inherit">Zur Website</a></div></footer>
 <script src="/admin.js" defer></script>
+<script src="/preise-admin.js" defer></script>
 </body></html>

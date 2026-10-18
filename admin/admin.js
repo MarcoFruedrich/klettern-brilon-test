@@ -16,7 +16,7 @@
   if(r.status===401&&url!=='/api/login'){view(false);throw Error('Sitzung abgelaufen. Bitte neu anmelden.');}
   if(!r.ok)throw Error(data.error||'Die Aktion konnte nicht ausgeführt werden.');return data;
  }
- async function load(){const data=await request(base);actions=data.actions;render();}
+ async function load(){const data=await request(base);actions=data.actions;render();const notice=$('storageNotice');notice.textContent=data.storage==='database'?'Dauerhafte Datenbankspeicherung ist aktiv. Du kannst zusätzlich jederzeit eine Sicherung herunterladen.':'Testbetrieb ohne externe Datenbank: Angebote können bei Server-Neustart verloren gehen. Bitte regelmäßig sichern.';}
  async function init(){try{const sess=await request('/api/session');view(sess.loggedIn);if(sess.loggedIn)await load();}catch(e){$('loadingArea').hidden=true;$('loginArea').hidden=false;msg('loginMessage','Verbindung zum Server nicht möglich. Bitte die Website über den gestarteten Server öffnen.',true);}}
  $('loginForm').addEventListener('submit',async e=>{
   e.preventDefault();const b=$('loginBtn');b.disabled=true;msg('loginMessage','Anmeldung läuft …');
@@ -53,6 +53,19 @@
    const url=URL.createObjectURL(blob); const a=document.createElement('a');
    a.href=url;a.download='brilon-tagesangebote-sicherung.json';document.body.append(a);a.click();a.remove();
    setTimeout(()=>URL.revokeObjectURL(url),2500);
+ });
+ $('importBackup').addEventListener('change',async event=>{
+  const file=event.target.files?.[0];if(!file)return;
+  try{
+   if(file.size>650000)throw Error('Sicherungsdatei ist zu groß.');
+   const parsed=JSON.parse(await file.text());
+   if(!Array.isArray(parsed)||parsed.length>200)throw Error('Keine gültige Angebotssicherung.');
+   if(!confirm('ACHTUNG: Alle '+actions.length+' bisherigen Angebote ersetzen durch '+parsed.length+' Einträge aus der Sicherung? Dies kann nicht rückgängig gemacht werden.'))return;
+   msg('importMessage','Sicherung wird wiederhergestellt …');
+   const result=await request(base+'/import',{method:'POST',body:JSON.stringify({confirm:'ERSETZEN',actions:parsed})});
+   await load();reset();msg('importMessage',result.imported+' Angebote erfolgreich wiederhergestellt.');
+  }catch(err){msg('importMessage','Wiederherstellung fehlgeschlagen: '+err.message,true);}
+  finally{event.target.value='';}
  });
  reset();init();
 })();
