@@ -159,9 +159,17 @@ async function body(req,maxBytes=20000){return new Promise((resolve,reject)=>{le
 function safeStatic(res, file, cache='public, max-age=600') {try{const stat=fs.statSync(file);if(!stat.isFile())return text(res,404,'Nicht gefunden.');const ext=path.extname(file).toLowerCase();if(!MIME[ext])return text(res,404,'Nicht gefunden.');res.writeHead(200,{'Content-Type':MIME[ext], 'Content-Length':stat.size,'Cache-Control':cache,...security});fs.createReadStream(file).pipe(res);}catch{return text(res,404,'Nicht gefunden.');}}
 async function handler(req,res){
  try {
-  cleanup();
+cleanup();
   const u=new URL(req.url||'/',`http://${req.headers.host||'localhost'}`);
   const pathname=decodeURIComponent(u.pathname);
+   if (pathname === '/api/buchungen' && req.method === 'POST'){
+     if (!dbPool) return json(res, 503, { error: 'Datenbank nicht verfügbar.' });
+     const daten = await body(req, 20000);
+     if (!daten || typeof daten !== 'object' || Array.isArray(daten)) return json(res, 400, { error: 'Ungültige Buchungsdaten.' });
+     const id = crypto.randomUUID();
+     await dbPool.query('INSERT INTO brilon_buchungen (id, data) VALUES ($1, $2)', [id, JSON.stringify(daten)]);
+     return json(res, 201, { success: true, id, message: 'Terminanfrage erfolgreich gespeichert.' });
+     }
   if(pathname==='/api/preise'&&req.method==='GET'){
     const prices=await loadPrices();const publicPrices=prices.published?prices:{...prices,programs:prices.programs.map(p=>({...p,prices:['','','']})),birthday:{...prices.birthday,price:''}};return json(res,200,{prices:loggedIn(req)?prices:publicPrices,storage:loggedIn(req)?(dbPool?'database':'temporary'):undefined});
   }
