@@ -145,6 +145,7 @@ async function initializeDatabase(){
  try{
   await pool.query('CREATE TABLE IF NOT EXISTS brilon_aktionen (id UUID PRIMARY KEY, data JSONB NOT NULL, created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(), updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW())');
   await pool.query('CREATE TABLE IF NOT EXISTS brilon_settings (id TEXT PRIMARY KEY, data JSONB NOT NULL)');
+await pool.query('CREATE TABLE IF NOT EXISTS brilon_buchungen (id UUID PRIMARY KEY, data JSONB NOT NULL, created_at TIMESTAMPTZ NOT NULL DEFAULT NOW())');
  }catch(err){await pool.end();throw err;}
  dbPool=pool;
  console.log('Speicherung: externe PostgreSQL-Datenbank verbunden.');
